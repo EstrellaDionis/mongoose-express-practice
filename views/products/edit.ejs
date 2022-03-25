@@ -29,9 +29,10 @@
 
       <label for="category">Select Category</label>
       <select name="category" id="category">
-        <option value="fruit">fruit</option>
-        <option value="vegetable">vegetable</option>
-        <option value="dairy">dairy</option>
+        <!-- similar to new.ejs, this dynamically makes our categories but on top of that, since this is the EDIT form, this is showing the same category as when it was put into the database instead of the switching to the default --> 
+        <% for(let category of categories){%>
+        <option value="<%=category%>"<%=product.category === category ? 'selected' : ''%>><%= category %></option>
+        <% } %>
       </select>
       <button>Submit</button>
     </form>

@@ -17,9 +17,10 @@
 
       <label for="category">Select Category</label>
       <select name="category" id="category">
-        <option value="fruit">fruit</option>
-        <option value="vegetable">vegetable</option>
-        <option value="dairy">dairy</option>
+        <!-- this is taking the array of categories made in the index.js and taking in the values so we dont have to manually do this ourselves.This dynamically makes the fruit, veg, dairy and any others for us -->
+        <% for(let category of categories){%>
+        <option value="<%=category%>"><%=category %></option>
+        <% } %>
       </select>
       <button>Submit</button>
     </form>
