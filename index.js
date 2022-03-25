@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 
 const Product = require("./models/product");
+const { findByIdAndDelete } = require("./models/product");
 
 mongoose
   .connect("mongodb://localhost:27017/farmStand", {
@@ -64,6 +65,12 @@ app.put("/products/:id", async (req, res) => {
   });
   console.log(req.body);
   res.redirect(`/products/${product._id}`);
+});
+
+app.delete("/products/:id", async (req, res) => {
+  const { id } = req.params;
+  const deletedProduct = await Product.findByIdAndDelete(id);
+  res.redirect("/products");
 });
 
 app.listen(9000, () => {
