@@ -29,14 +29,18 @@ app.use(methodOverride("_method"));
 
 const categories = ["fruit", "vegetable", "dairy"];
 
-app.get("/products", async (req, res) => {
-  const { category } = req.query;
-  if (category) {
-    const products = await Product.find({ category });
-    res.render("products/index", { products, category });
-  } else {
-    const products = await Product.find({});
-    res.render("products/index", { products, category: "All" });
+app.get("/products", async (req, res, next) => {
+  try {
+    const { category } = req.query;
+    if (category) {
+      const products = await Product.find({ category });
+      res.render("products/index", { products, category });
+    } else {
+      const products = await Product.find({});
+      res.render("products/index", { products, category: "All" });
+    }
+  } catch (error) {
+    next(error);
   }
 });
 
@@ -44,11 +48,15 @@ app.get("/products/new", (req, res) => {
   res.render("products/new", { categories });
 });
 
-app.post("/products", async (req, res) => {
-  const newProduct = new Product(req.body);
-  await newProduct.save();
-  console.log(newProduct);
-  res.redirect(`/products/${newProduct._id}`);
+app.post("/products", async (req, res, next) => {
+  try {
+    const newProduct = new Product(req.body);
+    await newProduct.save();
+    console.log(newProduct);
+    res.redirect(`/products/${newProduct._id}`);
+  } catch (error) {
+    next(error);
+  }
 });
 
 app.get("/products/:id", async (req, res, next) => {
@@ -72,14 +80,18 @@ app.get("/products/:id/edit", async (req, res, next) => {
   }
 });
 
-app.put("/products/:id", async (req, res) => {
-  const { id } = req.params;
-  const product = await Product.findByIdAndUpdate(id, req.body, {
-    runValidators: true,
-    new: true,
-  });
-  console.log(req.body);
-  res.redirect(`/products/${product._id}`);
+app.put("/products/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findByIdAndUpdate(id, req.body, {
+      runValidators: true,
+      new: true,
+    });
+    console.log(req.body);
+    res.redirect(`/products/${product._id}`);
+  } catch (error) {
+    next(error);
+  }
 });
 
 app.delete("/products/:id", async (req, res) => {
