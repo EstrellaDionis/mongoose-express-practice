@@ -51,17 +51,25 @@ app.post("/products", async (req, res) => {
   res.redirect(`/products/${newProduct._id}`);
 });
 
-app.get("/products/:id", async (req, res) => {
-  const { id } = req.params;
-  const product = await Product.findById(id);
-  console.log(product);
-  res.render("products/show", { product });
+app.get("/products/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findById(id);
+    console.log(product);
+    res.render("products/show", { product });
+  } catch (error) {
+    next(new AppError("Product Not Found", 404));
+  }
 });
 
-app.get("/products/:id/edit", async (req, res) => {
-  const { id } = req.params;
-  const product = await Product.findById(id);
-  res.render("products/edit", { product, categories });
+app.get("/products/:id/edit", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findById(id);
+    res.render("products/edit", { product, categories });
+  } catch (error) {
+    next(new AppError("Product cannot be found (coming from edit)", 400));
+  }
 });
 
 app.put("/products/:id", async (req, res) => {
