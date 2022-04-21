@@ -105,7 +105,21 @@ app.delete(
   })
 );
 
+const handleValidationErr = (err) => {
+  //using for mongooseErrors
+  console.log(err);
+  return new AppError(`Validation Failed...${err.message}`, 400); //(2)creating the error message
+};
+
 app.use((err, req, res, next) => {
+  //using for mongooseErrors
+  console.log(err.name);
+  if (err.name === "ValidationError") err = handleValidationErr(err); //(1) this is catching error with function handleValidationErr
+  next(err); //(3)passing the error onto the error handling middleware
+});
+
+app.use((err, req, res, next) => {
+  //error handling middleware
   const { status = 500, message = "Something went wrong" } = err;
   res.status(status).send(message);
 });
