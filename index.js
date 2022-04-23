@@ -119,7 +119,7 @@ app.use((err, req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  //error handling middleware
+  //error handling middleware adding(4) here to illustrate where the err handler would go to next
   const { status = 500, message = "Something went wrong" } = err;
   res.status(status).send(message);
 });
