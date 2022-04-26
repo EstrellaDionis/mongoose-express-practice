@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const farmSchema = Schema({
+  //creating schema
   name: {
     type: String,
     required: [true, "Farm must have a name!"],
@@ -20,3 +21,7 @@ const farmSchema = Schema({
     },
   ],
 });
+
+const Farm = model("Farm", farmSchema); //creating the actual model
+
+module.exports = Farm; //exporting the model we have just created

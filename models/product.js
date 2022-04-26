@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+//I am not destructuring { Schema } = mongoose on purpose as a reminder to what this looks like without it vs farm.js
 
 const productSchema = mongoose.Schema({
   name: {
