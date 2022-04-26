@@ -22,6 +22,6 @@ const farmSchema = Schema({
   ],
 });
 
-const Farm = model("Farm", farmSchema); //creating the actual model
+const Farm = mongoose.model("Farm", farmSchema); //creating the actual model
 
 module.exports = Farm; //exporting the model we have just created

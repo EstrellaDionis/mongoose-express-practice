@@ -6,6 +6,7 @@ const methodOverride = require("method-override");
 const AppError = require("./AppError");
 
 const Product = require("./models/product");
+const Farm = require("./models/farm");
 const { findByIdAndDelete } = require("./models/product");
 
 mongoose
@@ -27,6 +28,24 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
+//Farm Routes
+
+app.get("/farms", async (req, res) => {
+  const farms = await Farm.find({});
+  res.render("farms/index", { farms });
+});
+
+app.get("/farms/new", (req, res) => {
+  res.render("farms/new");
+});
+
+app.post("/farms", async (req, res) => {
+  const farm = new Farm(req.body);
+  await farm.save();
+  res.redirect("/farms");
+});
+
+//Product Routes
 const categories = ["fruit", "vegetable", "dairy"];
 
 function wrapAsync(fn) {
