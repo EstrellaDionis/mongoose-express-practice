@@ -50,6 +50,24 @@ app.post("/farms", async (req, res) => {
   res.redirect("/farms");
 });
 
+app.get("/farms/:id/products/new", (req, res) => {
+  const { id } = req.params;
+  res.render("products/new", { categories, id });
+});
+
+app.post("/farms/:id/products", async (req, res) => {
+  const { id } = req.params;
+  const farm = await Farm.findById(id);
+  const { name, price, category } = req.body;
+  const product = new Product({ name, price, category });
+  farm.products.push(product); //ACTUAL CRUCIAL PART TO THIS!
+  // this is pushing the product id because of our farmSchema. We're pushing that product we just created into the farm.
+  product.farm = farm; // = the farm we just found and this is tying the two things together
+  await farm.save();
+  await product.save();
+  res.send(farm);
+});
+
 //Product Routes
 const categories = ["fruit", "vegetable", "dairy"];
 
