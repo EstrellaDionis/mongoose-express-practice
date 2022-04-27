@@ -52,7 +52,8 @@ app.post("/farms", async (req, res) => {
 
 app.get("/farms/:id/products/new", (req, res) => {
   const { id } = req.params;
-  res.render("products/new", { categories, id });
+  res.render("products/new", { categories, id }); //this is passing in categories into our products/new (check the page) which are the categories located in the Product Routes (below)
+  //this is necessary to display the form correctly
 });
 
 app.post("/farms/:id/products", async (req, res) => {
