@@ -8,6 +8,7 @@ const AppError = require("./AppError");
 const Product = require("./models/product");
 const Farm = require("./models/farm");
 const { findByIdAndDelete } = require("./models/product");
+const req = require("express/lib/request");
 
 mongoose
   .connect("mongodb://localhost:27017/farmStand", {
@@ -44,6 +45,11 @@ app.get("/farms/:id", async (req, res) => {
   const farm = await Farm.findById(req.params.id).populate("products");
   console.log(farm);
   res.render("farms/show", { farm });
+});
+
+app.delete("/farms/:id", async (req, res) => {
+  const farm = await Farm.findByIdAndDelete(req.params.id);
+  res.redirect("/farms");
 });
 
 app.post("/farms", async (req, res) => {
