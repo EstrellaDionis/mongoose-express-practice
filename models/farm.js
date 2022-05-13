@@ -27,7 +27,7 @@ const farmSchema = Schema({
 //doing this to delete farm and all of its associated products
 //we're running a .post because we get the information to delete afterwards
 //findOneAndDelete will run regardless of whatever other 'find_andDelete' we run
-// $in - mongoose syntax
+// $in - is mongoose syntax
 // https://www.udemy.com/course/the-web-developer-bootcamp/learn/lecture/22117222#questions
 farmSchema.post("findOneAndDelete", async function (farm) {
   if (farm.products.length) {

@@ -4,6 +4,7 @@ const path = require("path");
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const AppError = require("./AppError");
+const productRoutes = require("./routes/products");
 
 const Product = require("./models/product");
 const Farm = require("./models/farm");
@@ -29,8 +30,9 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
-//Farm Routes
+app.use("/products", productRoutes);
 
+//Farm Routes
 app.get("/farms", async (req, res) => {
   const farms = await Farm.find({});
   res.render("farms/index", { farms });
